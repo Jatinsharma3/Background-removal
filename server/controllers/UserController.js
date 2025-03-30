@@ -22,11 +22,13 @@ const clerkWebhooks = async (req,res) =>{
 
                 const userData = {
                     clerkId: data.id,
-                    email: data.email_addresses[0].email_address,
-                    firstName: data.first_name,
-                    lastName: data.last_name,
-                    photo: data.image_url
+                    email: data.email_addresses?.[0]?.email_address || "",
+                    firstName: data.first_name || "",
+                    lastName: data.last_name || "",
+                    photo: data.image_url || ""
                 }
+                
+
                 await userModel.create(userData)
                 res.json({})
 
