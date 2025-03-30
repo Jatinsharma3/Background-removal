@@ -1,4 +1,4 @@
-import { Webhook } from "svix"
+import { Webhook } from 'svix'
 import userModel from "../models/userModel.js"
 
 // Api controller function to manage clerk user with database
@@ -10,9 +10,9 @@ const clerkWebhooks = async (req,res) =>{
         const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET)
 
         await whook.verify(JSON.stringify(req.body),{
-            "svix-id":req.headers["svix-id"],
-            "svix-timestamp":req.headers["svix-timestamp"],
-            "svix-signature":req.headers["svix-signature"]
+            "svix-id": req.headers["svix-id"],
+            "svix-timestamp": req.headers["svix-timestamp"],
+            "svix-signature": req.headers["svix-signature"]
         })
 
         const {data, type} = req.body
@@ -27,7 +27,7 @@ const clerkWebhooks = async (req,res) =>{
                     lastName: data.last_name || "",
                     photo: data.image_url || ""
                 }
-                
+                console.log(userData)
 
                 await userModel.create(userData)
                 res.json({})
