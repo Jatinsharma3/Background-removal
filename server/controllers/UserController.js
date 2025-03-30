@@ -6,6 +6,7 @@ import userModel from "../models/userModel.js"
 
 const clerkWebhooks = async (req,res) =>{
     try {
+
         // Create a svix instance with clerk webhook secret.
         const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET)
 
@@ -19,6 +20,12 @@ const clerkWebhooks = async (req,res) =>{
 
         switch (type) {
             case "user.created": {
+                const existingUser = await userModel.findOne({ email: data.email_addresses?.[0]?.email_address });
+                
+                if (existingUser) {
+                    console.log("⚠️ User already exists, skipping insertion.");
+                    return res.json({ message: "User already exists" });
+                }
 
                 const userData = {
                     clerkId: data.id,
@@ -27,10 +34,15 @@ const clerkWebhooks = async (req,res) =>{
                     lastName: data.last_name || "",
                     photo: data.image_url || ""
                 }
-                console.log(userData)
 
-                await userModel.create(userData)
-                res.json({})
+                try {
+                    await userModel.create(userData);
+                    console.log("User successfully saved to DB:", userData);
+                } catch (dbError) {
+                    console.error("Error saving user:", dbError.message);
+                }
+                
+                res.status(200).json({ success: true });
 
                 break;
             }
@@ -45,7 +57,8 @@ const clerkWebhooks = async (req,res) =>{
                 }
 
                 await userModel.findOneAndUpdate({clerkId:data.id}, userData)
-                res.json({})
+                console.log("Userdata updated succesfully")
+                res.status(200).json({ success: true });
 
                 break;
             }
@@ -53,7 +66,8 @@ const clerkWebhooks = async (req,res) =>{
             case "user.deleted": {
 
                 await userModel.findOneAndDelete({clerkId:data.id})
-                res.json({})
+                console.log("Userdata deleted succesfully")
+                res.status(200).json({ success: true });
 
                 break;
             }
