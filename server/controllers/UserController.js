@@ -1,5 +1,6 @@
 import { Webhook } from 'svix'
 import userModel from "../models/userModel.js"
+import razorpay from 'razorpay'
 
 // Api controller function to manage clerk user with database
 // http://localhost:4000/api/user/webhooks
@@ -95,5 +96,41 @@ const userCredits = async (req,res) => {
         res.json({success:false,message:error.message})
     }
 }
+
+// //  gateway razorpay initialization
+// const razorpayInstance = new razorpay({
+//     key_id: process.env.RAZORPAY_KEY_ID,
+//     key_secret: process.env.RAZORPAY_SECRET_KEY,
+// })
+
+// // API to make payment for credits
+// const paymentRazorpay = async (req,res) => {
+//     try {
+//         const {clerkId, planId} = req.body
+
+//         const userData = await userModel.findOne({clerkId})
+
+//         if(!userData || !planId) {
+//             return res.json({success:false, message:'Invalid Credentials'})
+//         }
+
+//         let credits, plan, amount, date 
+
+//         switch (planId) { 
+//             case value:
+                
+//                 break;
+        
+//             default:
+//                 break;
+//         }
+        
+//     } catch (error) {
+//         console.log(error.message)
+//         res.json({success:false,message:error.message})
+//     }
+// }
+
+
 
 export {clerkWebhooks, userCredits}

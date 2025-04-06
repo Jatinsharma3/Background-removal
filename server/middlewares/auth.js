@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 
-const authUser = async (req,res,next) => {     // decode jwt token to get clerkId
+const authUser = async (req,res,next) => {    // decode jwt token to get clerkId
     
     try {                    
         const {token} = req.headers
