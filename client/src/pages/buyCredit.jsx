@@ -14,6 +14,36 @@ const BuyCredit = () => {
 
   const {getToken} = useAuth()
 
+  const initPay = async (order) => {
+    const options = {
+      key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+      amount: order.amount, 
+      currency: order.currency,
+      name: 'Credits Payment',
+      description: 'Credits Payment',
+      order_id: order.id, // Pass the `id` obtained in the previous step
+      receipt: order.receipt,
+      handler: async function (response) {
+        console.log("Payment Response:", response);
+
+        const token = await getToken()
+        try {
+          const { data } = await axios.post(backendUrl + '/api/user/verify-razor', response, { headers: { token } })
+          if (data.success) {
+            loadCreditsData()
+            navigate('/')
+            toast.success("Credits added successfully")
+          }
+        } catch (error) {
+          console.log(error)
+          toast.error(error.message)
+        }
+      },
+    }
+    const razorpay = new window.Razorpay(options)
+    razorpay.open()
+  }
+
   const paymentRazorpay = async (planId) => {
     try {
       const token = await getToken()
@@ -24,38 +54,9 @@ const BuyCredit = () => {
           toast.error("Razorpay key is missing. Please try again later.");
           return;
         }
-
-        const options = {
-          key: data.key,
-          amount: data.amount,
-          currency: data.currency,
-          name: 'Remove.bg',
-          description: 'Purchase Credits',
-          order_id: data.orderId,
-          handler: async function (response) {
-            console.log("Razorpay Response:", response);
-            try {
-              const { data } = await axios.post(`${backendUrl}/api/user/webhooks`, { response }, { headers: { token } })
-              if (data.success) {
-                toast.success(data.message)
-                loadCreditsData()
-                navigate('/')
-              } else {
-                toast.error(data.message)
-              }
-            } catch (error) {
-              console.log(error)
-              toast.error(error.message)
-            }
-          },
-        }
-        const razorpay = new window.Razorpay(options)
-        razorpay.open()
-      } else {
-        toast.error(data.message)
+        initPay(data.order)
       }
-
-    } catch (error) {
+    }catch (error) {
       console.log(error)
       toast.error(error.message)
     }
