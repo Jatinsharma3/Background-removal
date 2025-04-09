@@ -10,24 +10,24 @@ const Steps = () => {
             <div className='flex items-start gap-4 bg-white border drop-shadow-md p-7 pb-10 rounded hover:scale-105 transition-all duration-500'>
                 <img className='max-w-9' src={assets.upload_icon} alt="" />
                 <div>
-                    <p className='text-xl font-medium'>Upload image</p>
-                    <p className='text-sm text-neutral-500 mt-1'>This is a demo text, will replace it later. <br/> This is a demo..</p>
+                    <p className='text-xl font-medium text-neutral-500 '>Upload image</p>
+                    <p className='text-sm text-neutral-500 mt-1'>A moment to upload. A lifetime of creativity. <br /> Give your visuals the space they deserve.</p>
                 </div>
             </div>
 
             <div className='flex items-start gap-4 bg-white border drop-shadow-md p-7 pb-10 rounded hover:scale-105 transition-all duration-500'>
                 <img className='max-w-9' src={assets.remove_bg_icon} alt="" />
                 <div>
-                    <p className='text-xl font-medium'>Removed background</p>
-                    <p className='text-sm text-neutral-500 mt-1'>This is a demo text, will replace it later. <br/> This is a demo..</p>
+                    <p className='text-xl font-medium text-neutral-500 '>Removed background</p>
+                    <p className='text-sm text-neutral-500 mt-1'>Like magic, but powered by AI. <br /> The background fades, your subject shines.</p>
                 </div>
             </div>
 
             <div className='flex items-start gap-4 bg-white border drop-shadow-md p-7 pb-10 rounded hover:scale-105 transition-all duration-500'>
                 <img className='max-w-9' src={assets.download_icon} alt="" />
                 <div>
-                    <p className='text-xl font-medium'>Download image</p>
-                    <p className='text-sm text-neutral-500 mt-1'>This is a demo text, will replace it later. <br/> This is a demo..</p>
+                    <p className='text-xl font-medium text-neutral-500 '>Download image</p>
+                    <p className='text-sm text-neutral-500 mt-1'>Crisp. Clean. Ready to go. <br /> Your image, just the way you imagined it.</p>
                 </div>
             </div>
 
