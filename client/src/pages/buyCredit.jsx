@@ -9,7 +9,7 @@ import axios from 'axios'
 
 const BuyCredit = () => {
   const {backendUrl, loadCreditsData} = useContext(AppContext)
-
+  
   const navigate = useNavigate()
 
   const {getToken} = useAuth()
